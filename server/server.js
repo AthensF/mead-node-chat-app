@@ -10,10 +10,21 @@ var server = http.createServer(app);
 var io = socketIO(server);
 
 app.use(express.static(publicPath));
-io.on('connection', (socket) => {
+io.on('connection', (socket) => { //event handlers
   console.log('New User connected')
+
   socket.on('disconnect', () => {
     console.log('Disconnected from user')
+  })
+
+  socket.on('createMessage', (message) => {
+    console.log('newMessage', message)
+  })
+
+  socket.emit("newMessage", {
+    from: "Athens",
+    Text: "I am hungry",
+    createdAt:"123"
   })
 });
 
