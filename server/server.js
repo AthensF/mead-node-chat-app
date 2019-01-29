@@ -18,14 +18,13 @@ io.on('connection', (socket) => { //event handlers
   })
 
   socket.on('createMessage', (message) => {
-    console.log('newMessage', message)
-  })
-
-  socket.emit("newMessage", {
-    from: "Athens",
-    Text: "I am hungry",
-    createdAt:"123"
-  })
+    console.log('newMessage', message);
+    io.emit('newMessage', {
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    });
+  });
 });
 
 
