@@ -13,12 +13,25 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => { //event handlers
   console.log('New User connected')
 
+  socket.emit('newMessage',{
+    from: 'Admin',
+    text: 'welcome to the app',
+    createdAt: new Date().getTime()
+  });
+
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    text: 'New user joined',
+    createdAt: new Date().getTime()
+  })
+
   socket.on('disconnect', () => {
     console.log('Disconnected from user')
   })
 
   socket.on('createMessage', (message) => {
     console.log('newMessage', message);
+
     io.emit('newMessage', {
       from: message.from,
       text: message.text,
